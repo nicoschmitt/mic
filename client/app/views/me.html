@@ -1,0 +1,20 @@
+<div class="maincontent" ng-hide="vm.isAuthenticated()">
+    <h3>Please log in.<h3>
+</div>
+
+<div class="maincontent" layout="column" flex="grow" ng-show="vm.isAuthenticated()">
+    <md-list>
+        <md-list-item ng-repeat="item in vm.infos">
+            <div class="debug-item md-list-item-text">
+                {{item.name}} = {{item.value}}
+            </div>
+        </md-list-item>
+    </md-list>
+    <div layout="row">
+        <md-button class="md-primary md-raised" ng-click="vm.renew()">Renew token</md-button>
+        <md-button class="md-primary md-raised" ng-click="vm.debug()">Debug getmail</md-button>
+    </div>
+    <div layout="column" ng-show="vm.debugcontent">
+        <textarea rows="15">{{vm.debugcontent}}</textarea>
+    </div>
+</div>
