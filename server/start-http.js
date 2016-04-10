@@ -1,7 +1,7 @@
 (function(){
     
     module.exports.start = function(app) {
-        
+
         var server = {};
         console.log("Env: " + process.env.NODE_ENV)
         var env = process.env.NODE_ENV;

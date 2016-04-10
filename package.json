@@ -32,9 +32,14 @@
     "moment": "^2.11.2",
     "mongodb": "^2.1.7",
     "mongoose": "^4.4.6",
+    "passport": "^0.3.2",
+    "passport-azure-ad": "^1.4.1",
+    "passport-strategy": "^1.0.0",
     "querystring": "^0.2.0",
     "request": "^2.69.0",
-    "shortid": "^2.2.4"
+    "sendgrid": "^2.0.0",
+    "shortid": "^2.2.4",
+    "util": "^0.10.3"
   },
   "devDependencies": {}
 }

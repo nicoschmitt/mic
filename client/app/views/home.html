@@ -11,16 +11,26 @@
         <strong>Oups</strong> 
         <p>{{vm.message}}</p>
     </div>
-    <md-list ng-hide="vm.loading">
-        <div ng-repeat="mail in vm.mails">
-            <md-list-item layout-wrap class="md-3-line" ng-click="vm.open(mail)">
-                <md-icon class="hide-xs" md-font-set="md-avatar-icon material-icons">account_circle</md-icon>
-                <div layout-wrap class="md-list-item-text" layout="column" ng-class="{ unread: mail.unread }">
-                    <h3>{{ mail.from }}</h3>
-                    <p>{{ mail.title }}</p>
-                </div>
-            </md-list-item>
-            <md-divider></md-divider>
+    <div ng-hide="vm.loading">
+        <div layout="row">
+            <md-card flex="33">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">PG1</span>
+                    </md-card-title-text>
+                    <md-card-content>
+                    </md-card-content>
+                </md-card-title>
+            </md-card>
+            <md-card flex="33">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">PG2</span>
+                    </md-card-title-text>
+                    <md-card-content>
+                    </md-card-content>
+                </md-card-title>
+            </md-card>
         </div>
-    </md-list>
+    </div>
 </div>

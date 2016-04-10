@@ -2,11 +2,11 @@
     
     var app = angular.module('myApp');
   
-    app.controller('topNavCtrl', ["$rootScope", "$location", 'adalAuthenticationService', "$http", "$window",
-        function ($rootScope, $location, adal, $http, $window) {
+    app.controller('topNavCtrl', ["$rootScope", "$location", 'adalAuthenticationService', "$http", 
+        function ($rootScope, $location, adal, $http) {
             var vm = this;
             
-            m.isAuthenticated = function() { return adal.userInfo.isAuthenticated }
+            vm.isAuthenticated = function() { return adal.userInfo.isAuthenticated }
             
             vm.goToProfile = function() {
                 $location.path("/Me");

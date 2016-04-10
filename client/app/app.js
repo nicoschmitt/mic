@@ -4,24 +4,22 @@
   
     app.config(["adalAppId", "o365tenant", '$routeProvider', '$httpProvider', "adalAuthenticationServiceProvider",
         function (adalAppId, o365tenant, $routeProvider, $httpProvider, adalProvider) {
-   
+
             $routeProvider.when("/Home", {
                 templateUrl: "/app/views/home.html",
                 controller: "homeCtrl",
                 controllerAs: "vm"
-
-            }).when("/Me", {
-                templateUrl: "/app/views/me.html",
-                controller: "meCtrl",
-                controllerAs: "vm",
                 
+            }).when("/Login", {
+                requireADLogin: true,
+                redirectTo: "/Home"
+
             }).otherwise({ redirectTo: "/Home" });
             
             adalProvider.init({
                 tenant: o365tenant + '.onmicrosoft.com',
                 clientId: adalAppId
-            }, $httpProvider );
-            
+            }, $httpProvider);
     }]);
    
     fetchData().then(launchApplication);

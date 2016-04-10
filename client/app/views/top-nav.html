@@ -1,16 +1,16 @@
 <md-toolbar class="top-nav">
     <div class="md-toolbar-tools">
         <h2 class="nav-app-title">
-            <a href="#/Home">myMail</a>
+            <a href="#/Home">myMIC</a>
         </h2>
-        <span ng-class="{ active: vm.isActive('/New')}" class="nav-menu-item" ng-show="vm.isAuthenticated()">
+        <!--<span ng-class="{ active: vm.isActive('/New')}" class="nav-menu-item" ng-show="vm.isAuthenticated()">
             <h2>
                 <a href="#/New">
                     <md-icon show-xs hide-gt-xs md-font-set="material-icons">add_circle_outline</md-icon>
                     <span hide-xs show-gt-xs>New</span>
                 </a>
             </h2>
-        </span>
+        </span>-->
         <span flex></span>
         <span ng-show="vm.isAuthenticated()">
             <i class="fa fa-user"></i> {{vm.getUsername()}}
@@ -20,9 +20,9 @@
                 <md-icon md-font-set="material-icons" ng-click="$mdOpenMenu($event)">more_vert</md-icon>
             </md-button>
             <md-menu-content>
-                <md-menu-item>
+                <!--<md-menu-item>
                     <md-button class="md-primary" ng-click="vm.goToProfile()">My Profile</md-button>
-                </md-menu-item>
+                </md-menu-item>-->
                 <md-menu-item>
                     <md-button class="md-primary" ng-click="vm.logout()">Logout</md-button>
                 </md-menu-item>

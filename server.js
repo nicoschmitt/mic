@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("etag", false);
 
+require("./server/auth/auth-config").register(app);
+
 require('./server/routes').register(app);
 
 app.use(compression());
