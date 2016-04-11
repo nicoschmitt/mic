@@ -5,11 +5,13 @@
     
     function GetDataForUser(user, cb) {
         Data.find({ user: user, fiscal: process.env.CURRENT_FISCAL }, { user:0, fiscal:0, _id: 0, __v: 0 }).sort("date").lean().exec(function(err, data) {
-            var latest = data[data.length - 1].date.getTime();
-            data.forEach(d => {
-                d.current = (d.date.getTime() == latest) ? 1 : 0;
-            });
-           cb(data);
+            if (data && data.length > 0) {
+                var latest = data[data.length - 1].date.getTime();
+                data.forEach(d => {
+                    d.current = (d.date.getTime() == latest) ? 1 : 0;
+                });
+            }
+            cb(data);
         });
     }
   
@@ -28,7 +30,7 @@
   
     module.exports.getcurrentdata = function(req, res) {
         var email = req.user.preferred_username;
-        if (!email.endsWith(process.env.USER_EMAIL_DOMAIN)) res.json({});
+        if (!email.endsWith(process.env.USER_EMAIL_DOMAIN)) return res.json({});
         var user = email.substr(0, email.indexOf("@"));
 
         GetDataForUser(user, function(data) {
