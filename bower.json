@@ -20,7 +20,7 @@
     "moment": "^2.12.0",
     "adal-angular-experimental": "adal-angular#2.0.0-experimental",
     "Chart.js": "^2.0.0",
-    "angular-chart.js": "^0.9.0"
+    "angular-chart.js": "1.0.0-alpha3"
   },
   "overrides": {
     "angular-material": {
@@ -31,9 +31,6 @@
     },
     "angular-aria": {
       "main": "angular-aria.min.js"
-    },
-    "Chart.js": {
-        "main": "dist/chart.min.js"
     }
   }
 }

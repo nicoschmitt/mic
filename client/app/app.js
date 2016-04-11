@@ -1,6 +1,6 @@
 /* global angular */
 (function() {
-    var app = angular.module('myApp', [ 'ngRoute', "AdalAngular", "ngMaterial" ]);
+    var app = angular.module('myApp', [ 'ngRoute', "AdalAngular", "ngMaterial", "chart.js" ]);
   
     app.config(["adalAppId", "o365tenant", '$routeProvider', '$httpProvider', "adalAuthenticationServiceProvider",
         function (adalAppId, o365tenant, $routeProvider, $httpProvider, adalProvider) {
