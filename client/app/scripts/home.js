@@ -11,6 +11,7 @@
             vm.loading = true;
             vm.message = "";
             vm.quarters = [];
+            vm.updated = "";
             
             var handleError = function(resp) {
                 vm.loading = false;
@@ -31,7 +32,10 @@
                         vm.quarters.push(currentQuarter);
                     }
                     
-                    vm.quarters.push(latest.filter(d => d.quarter == "Q4")[0]);
+                    var q4 = latest.filter(d => d.quarter == "Q4")[0];
+                    vm.quarters.push(q4);
+                    
+                    vm.updated = moment(q4.date).fromNow();
                     
                     console.log(vm.quarters);
                 });   
