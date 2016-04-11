@@ -74,19 +74,16 @@ a {
     cursor: pointer;
 };
 
-#message {
-    margin-top: 30px;
-};
+// ---- Home ----
 
-.me {
+.tabcontent {
     margin-top: 20px;
-};
+    margin-bottom: 20px;
+}
 
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-};
+.kpi {
+    padding: 30px;
+}
 
 // ----Alert ----
 
@@ -99,12 +96,3 @@ a {
         color: rgba(255,255,255, 0.84);
     }
 }
-
-// ---- Me ----
-
-.debug-item {
-    word-wrap: break-word;
-}
-
-// --- 
-

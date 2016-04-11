@@ -3,20 +3,20 @@
     var Data    = require("./data.model");
     var sendgrid = require('sendgrid')(process.env.SENDGRID_APIKEY);
     
-    function GetDataForser(user, cb) {
-        var today = moment().utc().startOf('day').toDate();
-        Data.find({ user: user, fiscal: process.env.CURRENT_FISCAL }, { user:0, fiscal:0, _id: 0, __v: 0 }).lean().exec(function(err, data) {
+    function GetDataForUser(user, cb) {
+        Data.find({ user: user, fiscal: process.env.CURRENT_FISCAL }, { user:0, fiscal:0, _id: 0, __v: 0 }).sort("date").lean().exec(function(err, data) {
+            var latest = data[data.length - 1].date.getTime();
             data.forEach(d => {
-                d.current = (d.date.getTime() == today.getTime()) ? "1" : "0";
+                d.current = (d.date.getTime() == latest) ? 1 : 0;
             });
            cb(data);
         });
     }
   
-    function SendMail(msg) {
+    function SendMail(user, msg) {
         var payload   = {
-            to      : 'nicolass@microsoft.com',
-            from    : 'nicolas.schmitt@outlook.fr',
+            to      : user + "@" + process.env.USER_EMAIL_DOMAIN,
+            from    : process.env.EMAIL_SENT_FROM,
             subject : 'myMIC',
             html    : msg
         };
@@ -31,16 +31,15 @@
         if (!email.endsWith(process.env.USER_EMAIL_DOMAIN)) res.json({});
         var user = email.substr(0, email.indexOf("@"));
 
-        GetDataForser(user, function(data) {
+        GetDataForUser(user, function(data) {
             res.json(data);
         });
     }
   
     module.exports.getdata = function(req, res) {
-        console.log(req.originalUrl);
         var user = req.params.user;
 
-        GetDataForser(user, function(data) {
+        GetDataForUser(user, function(data) {
             res.json(data);
         });
     };
@@ -71,8 +70,7 @@
                             }
                         });
                         if (changed) {
-                            console.log(msg);
-                            SendMail(msg);
+                            SendMail(user, msg);
                         }
                     }
                    

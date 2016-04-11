@@ -12,25 +12,27 @@
         <p>{{vm.message}}</p>
     </div>
     <div ng-hide="vm.loading">
-        <div layout="row">
-            <md-card flex="33">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">PG1</span>
-                    </md-card-title-text>
-                    <md-card-content>
-                    </md-card-content>
-                </md-card-title>
-            </md-card>
-            <md-card flex="33">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">PG2</span>
-                    </md-card-title-text>
-                    <md-card-content>
-                    </md-card-content>
-                </md-card-title>
-            </md-card>
-        </div>
+        <md-tabs md-dynamic-height>
+            <md-tab ng-repeat="quarter in vm.quarters" label="{{quarter.quarter}}">
+                <div class='tabcontent' layout="row" layout-xs="column">
+                    <md-card flex-gt-xs="33">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">PG1</span>
+                                <div layout-align="center center" class="kpi md-display-1">{{quarter.PG1}}%</div>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-card>
+                    <md-card flex-gt-xs="33">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">PG2</span>
+                                <div layout-align="center center" class="kpi md-display-1">{{quarter.PG2}}%</div>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-card>
+                </div>
+            </md-tab>
+        </md-tabs>
     </div>
 </div>
