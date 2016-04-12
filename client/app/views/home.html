@@ -14,7 +14,7 @@
     <div ng-hide="vm.loading">
         <md-tabs md-dynamic-height>
             <md-tab ng-repeat="quarter in vm.quarters" label="{{quarter.name}}">
-                <div class='tabcontent'>
+                <div class='tabcontent' layout="column" layout-align="start stretch">
                     <div layout="row" layout-xs="column">
                         <md-card flex-gt-xs="33">
                             <md-card-title>
