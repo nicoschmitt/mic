@@ -1,7 +1,8 @@
 (function(){
-    var moment  = require("moment")
-    var Data    = require("./data.model");
-    var sendgrid = require('sendgrid')(process.env.SENDGRID_APIKEY);
+    var moment     = require("moment")
+    var Data       = require("./data.model");
+    var UpdateInfo = require("./info.model");
+    var sendgrid   = require('sendgrid')(process.env.SENDGRID_APIKEY);
     
     function GetDataForUser(user, cb) {
         Data.find({ user: user, fiscal: process.env.CURRENT_FISCAL }, { user:0, fiscal:0, _id: 0, __v: 0 }).sort("date").lean().exec(function(err, data) {
@@ -32,9 +33,14 @@
         var email = req.user.preferred_username;
         if (!email.endsWith(process.env.USER_EMAIL_DOMAIN)) return res.json({});
         var user = email.substr(0, email.indexOf("@"));
-
-        GetDataForUser(user, function(data) {
-            res.json(data);
+        
+        UpdateInfo.findOne({ user: user }, function(err, info) {
+            GetDataForUser(user, function(data) {
+                res.json({
+                    lastupdated: info.when,
+                    data: data
+                });
+            });
         });
     }
   
@@ -51,14 +57,15 @@
         
         console.log("record data for user " + user);
 
-        req.body.date = moment.utc(req.body.date, "DD/MM/YYYY").toDate();
+        var m = moment.utc(req.body.date, "DD/MM/YYYY");
+        if (!m.isValid()) return res.status(400).send("invalid date");
+        req.body.date = m.toDate();
         
         Data.findOne({ user: user, fiscal: req.body.fiscal, quarter: req.body.quarter, date: req.body.date }, function(err, doc) {
             if (doc) {
                 console.log("already exists");
                 res.json({});
             } else {
-                
                 Data.findOne({ user: user, fiscal: req.body.fiscal, quarter: req.body.quarter }).sort("-date").exec(function(err, doc) {
                     if (doc) {
                         var changed = false;
@@ -81,8 +88,11 @@
                         data[k] = req.body[k];
                     });
                     
-                    data.save(function(){
-                        res.json({}); 
+                    data.save(function(err, doc){
+                        if (err) console.log(err);
+                        UpdateInfo.findOneAndUpdate({ user: user }, { when: Date.now() }, { upsert: true }, function() {
+                            res.json({}); 
+                        })
                     }); 
                 });
             }

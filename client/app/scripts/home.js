@@ -54,36 +54,29 @@
                 $http.get("/api/data").then(function(resp) {
                     vm.loading = false;
                     
-                    var latest = resp.data.filter(d => d.current == 1);
+                    vm.updated = moment(resp.data.lastupdated).fromNow();
+                    var data = resp.data.data;
+                    
+                    var latest = data.filter(d => d.current == 1);
                     var notQ4 = latest.filter(d => d.quarter != "Q4");
                     
                     if (notQ4.length > 0) {
                         var currentQuarter = notQ4[0];
-                        var all = resp.data.filter(d => d.quarter == currentQuarter.quarter);
+                        var all = data.filter(d => d.quarter == currentQuarter.quarter);
                         vm.quarters.push({
                             name: currentQuarter.quarter,
                             current: currentQuarter,
-                            hist: GetChartData(resp.data, currentQuarter.quarter)
+                            hist: GetChartData(data, currentQuarter.quarter)
                         });
                     }
                     
                     var q4 = latest.filter(d => d.quarter == "Q4")[0];
-                    var q4All = resp.data.filter(d => d.quarter == currentQuarter);
+                    var q4All = data.filter(d => d.quarter == currentQuarter);
                     vm.quarters.push({
                         name: "Q4",
                         current: q4,
-                        hist: GetChartData(resp.data, "Q4")
+                        hist: GetChartData(data, "Q4")
                     });
-                    
-                    var now = moment();
-                    var then = moment(q4.date);
-                    if (now.diff(then, "days") < 1) {
-                        vm.updated = "today";
-                    } else {
-                        vm.updated = "about " + moment(q4.date).fromNow();
-                    }
-                    
-                    console.log(vm.quarters);
                 });   
             };
             
