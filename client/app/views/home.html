@@ -46,7 +46,7 @@
             </md-tab>
         </md-tabs>
         <div ng-show="vm.quarters.length" class="updated">Last update {{vm.updated}}</div>
-        <div ng-hide="vm.quarters.length" class="nodata">
+        <div ng-hide="vm.loading || vm.quarters.length" class="nodata">
             No data.
         </div>
     </div>

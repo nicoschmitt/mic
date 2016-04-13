@@ -13,6 +13,14 @@
             vm.quarters = [];
             vm.updated = "";
             vm.chartoptions = {
+                tooltips: {
+                    callbacks: {
+                        label: function(o, context) { 
+                            var value = "$" + (o.yLabel * 1000).toFixed(0).replace(/(\d)(?=(\d{3})+$)/g, "$1 ");
+                            return context.datasets[o.datasetIndex].label + ": " + value; 
+                        }  
+                    }
+                },
                 scales: {
                     xAxes: [{
                         type: "time",
@@ -26,7 +34,7 @@
                         type: "linear",
                         ticks: {
                             min: 0,
-                            callback: function(value) { return (value / 1000).toFixed(1).replace(/(\d)(?=(\d{3})+$)/g, "$1 ") + "M"; }
+                            callback: function(value) { return (value / 1000).toFixed(1).replace(/(\d)(?=(\d{3})+$)/g, "$1 ") + "M$"; }
                         }
                     }]
                 }
