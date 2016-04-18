@@ -1,10 +1,24 @@
 (function(){
     
+    var httpsRedirect = function(req, res, next) {
+        if (req.headers['x-forwarded-proto'] != 'https' && !req.headers['x-arr-ssl']) {
+            return res.redirect(301, 'https://' + req.hostname + req.originalUrl);
+        } else {
+            return next();
+        }
+    };
+    
+    module.exports.forceHttps = function(app) {
+        var env = process.env.NODE_ENV || "development";
+        if (env != "development") {
+            app.use(httpsRedirect);
+        }
+    }
+    
     module.exports.start = function(app) {
-
         var server = {};
-        console.log("Env: " + process.env.NODE_ENV)
-        var env = process.env.NODE_ENV;
+        var env = process.env.NODE_ENV || "development";
+        console.log("Env: " + env);
         var port = process.env.PORT || 8080;
         if (env == "development") {
             console.log("Dev env, start HTTPS server");
