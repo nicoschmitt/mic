@@ -1,8 +1,9 @@
 require('dotenv').config({silent: true});
 
-var throng = require("throng");
-var workers = process.env.WEB_CONCURRENCY || 1;
-if (workers > 1) {
+var env = process.env.NODE_ENV || "development";
+if (env == "production") {
+    var throng = require("throng");
+    var workers = process.env.WEB_CONCURRENCY || 1;
     throng({
         workers: workers,
         start: worker
