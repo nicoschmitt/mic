@@ -4,9 +4,10 @@
         "script"    : "server.js",
         "watch"     : true,
         "exec_mode" : "cluster",
-        "instances" : 4,
+        "instances" : "max",
         "env": {
-            "NODE_ENV": "production"
+            "NODE_ENV": "production",
+            "PORT": 8080
         }
     }]
 }
