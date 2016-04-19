@@ -1,0 +1,12 @@
+{
+    "apps" : [{
+        "name"      : "mic",
+        "script"    : "server.js",
+        "watch"     : true,
+        "exec_mode" : "cluster",
+        "instances" : 4,
+        "env": {
+            "NODE_ENV": "production"
+        }
+    }]
+}
