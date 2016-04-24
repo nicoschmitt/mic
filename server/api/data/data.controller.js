@@ -46,10 +46,27 @@
   
     module.exports.getdata = function(req, res) {
         var user = req.params.user;
+        var quarter = req.query.quarter;
+        var full = req.query.full;
+        
+        if (!quarter) {
+            var month = moment().month();
+            if (month < 3) quarter = "Q3";
+            else if (month < 6) quarter = "Q4";
+            else if (month < 9) quarter = "Q1";
+            else quarter = "Q2";
+        }
 
-        GetDataForUser(user, function(data) {
-            res.json(data);
-        });
+        if (full) {
+            GetDataForUser(user, function(data) {
+                return res.json(data);
+            });
+        } else {
+            var search = { user: user, fiscal: process.env.CURRENT_FISCAL, quarter: quarter };
+            Data.findOne(search, { user:0, fiscal:0, _id: 0, __v: 0 }).sort("-date").exec(function(err, data) {
+                return res.json(data);
+            });
+        }
     };
     
     module.exports.putdata = function(req, res) {

@@ -19,8 +19,8 @@
     "jquery": "^2.2.3",
     "moment": "^2.13.0",
     "adal-angular-experimental": "adal-angular#2.0.0-experimental",
-    "Chart.js": "^2.0.1",
-    "angular-chart.js": "1.0.0-alpha4"
+    "Chart.js": "^2.0.2",
+    "angular-chart.js": "1.0.0-alpha6"
   },
   "overrides": {
     "angular-material": {

@@ -1,6 +1,6 @@
 {
   "name": "mic",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "mic",
   "main": "server.js",
   "author": "Nicolas Schmitt",
