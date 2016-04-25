@@ -50,7 +50,12 @@
                 var all = data.filter(d => d.quarter == quarter);
                 return {
                     labels: all.map(d => { return moment(d.date).toDate(); }),
-                    series: [ "Target PG2", "Actuals PG2", "Target PG1", "Actuals PG1" ],
+                    series: [ 
+                        "Target PG2", 
+                        "Actuals PG2", 
+                        "Target PG1", 
+                        "Actuals PG1"
+                    ],
                     data: [
                        all.map(d => { return d.PG2Target/1000; }),
                        all.map(d => { return d.PG2Actuals/1000; }),

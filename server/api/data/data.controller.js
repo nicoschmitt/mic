@@ -81,7 +81,7 @@
         Data.findOne({ user: user, fiscal: req.body.fiscal, quarter: req.body.quarter, date: req.body.date }, function(err, doc) {
             if (doc) {
                 console.log("already exists");
-                res.json({});
+                res.json({ already: true });
             } else {
                 Data.findOne({ user: user, fiscal: req.body.fiscal, quarter: req.body.quarter }).sort("-date").exec(function(err, doc) {
                     if (doc) {
@@ -108,7 +108,7 @@
                     data.save(function(err, doc){
                         if (err) console.log(err);
                         UpdateInfo.findOneAndUpdate({ user: user }, { when: Date.now() }, { upsert: true }, function() {
-                            res.json({}); 
+                            res.json({ done: true }); 
                         })
                     }); 
                 });
