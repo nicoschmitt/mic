@@ -1,18 +1,20 @@
 (function() {
     
     var app = angular.module('myApp');
-  
-    app.controller('homeCtrl', ['$http', "$location", "adalAuthenticationService",
-        function ($http, $location, adal) {
-            var vm = this;
-            
-            vm.isAuthenticated = function() { return adal.userInfo.isAuthenticated }
-            
-            vm.loading = true;
-            vm.message = "";
-            vm.quarters = [];
-            vm.updated = "";
-            vm.chartoptions = {
+    
+    function getCurrentQuarter() {
+        var quarter = "Q4";
+        var month = moment().month();
+        if (month < 3) quarter = "Q3";
+        else if (month < 6) quarter = "Q4";
+        else if (month < 9) quarter = "Q1";
+        else quarter = "Q2";
+        
+        return quarter;
+    }
+    
+    function getChartOptions() {
+        return {
                 tooltips: {
                     callbacks: {
                         label: function(o, context) { 
@@ -39,6 +41,20 @@
                     }]
                 }
             };
+    }
+  
+    app.controller('homeCtrl', ['$http', "$location", "adalAuthenticationService",
+        function ($http, $location, adal) {
+            var vm = this;
+            
+            vm.isAuthenticated = function() { return adal.userInfo.isAuthenticated }
+            
+            vm.loading = true;
+            vm.message = "";
+            vm.quarters = [];
+            vm.updated = "";
+            vm.chartoptions = getChartOptions();
+            vm.selectedTab = 0;
             
             var handleError = function(resp) {
                 vm.loading = false;
@@ -73,25 +89,17 @@
                     var data = resp.data.data;
                     
                     var latest = data.filter(d => d.current == 1);
-                    var notQ4 = latest.filter(d => d.quarter != "Q4");
-                    
-                    if (notQ4.length > 0) {
-                        var currentQuarter = notQ4[0];
-                        var all = data.filter(d => d.quarter == currentQuarter.quarter);
+                    latest.forEach(quarter => {
+                        var all = data.filter(d => d.quarter == quarter.quarter);
                         vm.quarters.push({
-                            name: currentQuarter.quarter,
-                            current: currentQuarter,
-                            hist: GetChartData(data, currentQuarter.quarter)
+                            name: quarter.quarter,
+                            current: quarter,
+                            hist: GetChartData(data, quarter.quarter)
                         });
-                    }
-                    
-                    var q4 = latest.filter(d => d.quarter == "Q4")[0];
-                    var q4All = data.filter(d => d.quarter == currentQuarter);
-                    vm.quarters.push({
-                        name: "Q4",
-                        current: q4,
-                        hist: GetChartData(data, "Q4")
                     });
+                    
+                    var idx = vm.quarters.findIndex(q => q.name == getCurrentQuarter());
+                    if (idx >= 0) vm.selectedTab = idx;
                 });   
             };
             

@@ -12,7 +12,7 @@
         <p>{{vm.message}}</p>
     </div>
     <div ng-hide="vm.loading">
-        <md-tabs md-dynamic-height>
+        <md-tabs md-selected="vm.selectedTab" md-dynamic-height>
             <md-tab ng-repeat="quarter in vm.quarters" label="{{quarter.name}}">
                 <div class='tabcontent' layout="column" layout-align="start stretch">
                     <div layout="row" layout-xs="column">
