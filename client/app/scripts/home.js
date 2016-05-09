@@ -63,9 +63,8 @@
             };
             
             function GetChartData(data, quarter) {
-                var all = data.filter(d => d.quarter == quarter);
                 return {
-                    labels: all.map(d => { return moment(d.date).toDate(); }),
+                    labels: data.map(d => { return moment(d.date).toDate(); }),
                     series: [ 
                         "Target PG2", 
                         "Actuals PG2", 
@@ -73,10 +72,10 @@
                         "Actuals PG1"
                     ],
                     data: [
-                       all.map(d => { return d.PG2Target/1000; }),
-                       all.map(d => { return d.PG2Actuals/1000; }),
-                       all.map(d => { return d.PG1Target/1000; }),
-                       all.map(d => { return d.PG1Actuals/1000; })
+                       data.map(d => { return d.PG2Target/1000; }),
+                       data.map(d => { return d.PG2Actuals/1000; }),
+                       data.map(d => { return d.PG1Target/1000; }),
+                       data.map(d => { return d.PG1Actuals/1000; })
                     ]   
                 };
             }
@@ -88,16 +87,22 @@
                     vm.updated = moment(resp.data.lastupdated).fromNow();
                     var data = resp.data.data;
                     
-                    var latest = data.filter(d => d.current == 1);
-                    latest.forEach(quarter => {
-                        var all = data.filter(d => d.quarter == quarter.quarter);
-                        vm.quarters.push({
-                            name: quarter.quarter,
-                            current: quarter,
-                            hist: GetChartData(data, quarter.quarter)
-                        });
+                    var byQuarter = { Q1: [], Q2: [], Q3: [], Q4: [] };
+                    data.reduce((prev, current) => {
+                        byQuarter[current.quarter].push(current);   
                     });
                     
+                    for(var q in byQuarter) {
+                        if (byQuarter[q].length > 0) {
+                            var qdata = byQuarter[q];
+                            vm.quarters.push({
+                                name: q,
+                                current: qdata[qdata.length - 1],
+                                hist: GetChartData(byQuarter[q], q)
+                            });
+                        }
+                    }
+                   
                     var idx = vm.quarters.findIndex(q => q.name == getCurrentQuarter());
                     if (idx >= 0) vm.selectedTab = idx;
                 });   
