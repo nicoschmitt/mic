@@ -42,6 +42,10 @@
                 }
             };
     }
+    
+    function formatCurrency(amount) {
+        return (amount / 1000).toFixed(0).replace(/(\d)(?=(\d{3})+$)/g, "$1 ") + "k";
+    }
   
     app.controller('homeCtrl', ['$http', "$location", "adalAuthenticationService",
         function ($http, $location, adal) {
@@ -95,11 +99,16 @@
                     for(var q in byQuarter) {
                         if (byQuarter[q].length > 0) {
                             var qdata = byQuarter[q];
-                            vm.quarters.push({
+                            var q = {
                                 name: q,
                                 current: qdata[qdata.length - 1],
                                 hist: GetChartData(byQuarter[q], q)
-                            });
+                            };
+                            
+                            q.current.nicePG1Togo = formatCurrency(q.current.PG1Togo);
+                            q.current.nicePG2Togo = formatCurrency(q.current.PG2Togo);
+                            
+                            vm.quarters.push(q);
                         }
                     }
                    

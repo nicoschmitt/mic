@@ -20,7 +20,10 @@
                             <md-card-title>
                                 <md-card-title-text>
                                     <span class="md-headline">PG1</span>
-                                    <div layout-align="center center" class="kpi md-display-1">{{quarter.current.PG1}}%</div>
+                                    <div layout="column" layout-align="center start" class="kpi md-display-1">
+                                        <span>{{quarter.current.PG1}}%</span>
+                                        <span class="togo">Togo: ${{quarter.current.nicePG1Togo}}</span>
+                                    </div>
                                 </md-card-title-text>
                             </md-card-title>
                         </md-card>
@@ -28,7 +31,10 @@
                             <md-card-title>
                                 <md-card-title-text>
                                     <span class="md-headline">PG2</span>
-                                    <div layout-align="center center" class="kpi md-display-1">{{quarter.current.PG2}}%</div>
+                                    <div layout="column" layout-align="center start" class="kpi md-display-1">
+                                        <span>{{quarter.current.PG2}}%</span>
+                                        <span class="togo">Togo: ${{quarter.current.nicePG2Togo}}</span>
+                                    </div>
                                 </md-card-title-text>
                             </md-card-title>
                         </md-card>
