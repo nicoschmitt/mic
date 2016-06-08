@@ -88,6 +88,8 @@
                 $http.get("/api/data").then(function(resp) {
                     vm.loading = false;
                     
+                    if (!resp.data.lastupdated) return;
+                    
                     vm.updated = moment(resp.data.lastupdated).fromNow();
                     var data = resp.data.data;
                     
@@ -105,6 +107,7 @@
                                 hist: GetChartData(byQuarter[q], q)
                             };
                             
+                            q.current.globalAttainment = ((30*q.current.PG1 + 35*q.current.PG2 + 5*q.current.CRM + 20*q.current.Usage + 10*q.current.Voice)/100).toFixed(0);
                             q.current.nicePG1Togo = formatCurrency(q.current.PG1Togo);
                             q.current.nicePG2Togo = formatCurrency(q.current.PG2Togo);
                             
